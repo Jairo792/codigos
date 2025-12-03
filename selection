@@ -1,0 +1,105 @@
+include 'emu8086.inc'
+
+ViewArray Macro
+    push ax
+    push bx
+    push si
+
+    mov bx, 0
+    local mostrar
+mostrar:
+    mov ah, 0
+    mov al, v[bx]
+    call print_num
+    print ' '
+    inc bx
+    cmp bx, n
+    jl mostrar
+
+    pop si
+    pop bx
+    pop ax
+endm
+
+
+org 100h
+
+lea si, msg
+call print_string
+call pthis
+db 13,10, '', 0
+
+mov cx, n
+dec cx
+mov i, 0
+
+cicloi:
+    mov si, i
+    push cx
+    mov cx, n
+    mov index, si
+
+    mov j, si
+    add j, 1
+
+cicloj:
+    mov di, j
+    mov al, v[di]
+    mov si, index
+    cmp al, v[si]
+    jnl continue
+
+    mov index, di
+
+continue:
+    mov ax, j
+    cmp ax, n
+    je salir
+    inc j
+
+salir:
+    loop cicloj
+
+    pop cx
+    mov di, index
+    mov si, i
+    mov al, v[si]
+    mov ah, v[di]
+    mov v[si], ah
+    mov v[di], al
+    inc i
+
+    call pthis
+    db 13,10, '', 0
+    ViewArray
+
+loop cicloi
+
+call pthis
+db 13,10, '', 0
+
+lea si, msg1
+call print_string
+call pthis
+db 13,10, '', 0
+
+ViewArray
+
+ret
+
+
+msg db 'Metodo de Ordenamiento de Seleccion', 0
+msg1 db 'Vector ordenado:', 0
+v db 4,7,2,3,8,1,10,5,9,6
+n equ 10
+
+index dw 0
+i dw 0
+j dw 0
+
+DEFINE_CLEAR_SCREEN
+DEFINE_SCAN_NUM
+DEFINE_PRINT_NUM
+DEFINE_PRINT_STRING
+DEFINE_PTHIS
+DEFINE_PRINT_NUM_UNS
