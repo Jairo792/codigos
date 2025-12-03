@@ -1,0 +1,38 @@
+;1
+mov ah,06
+mov al,00
+mov bh,47
+mov cx,00
+mov dx,021A
+int 10
+
+;2
+mov ah,06
+mov al,00
+mov bh,47
+mov cx,030b
+mov dx,0b10
+int 10
+
+;3
+mov ah,06
+mov al,00
+mov bh,47
+mov cx,0900
+mov dx,0b0b
+int 10
+
+;4
+mov ah,06
+mov al,00
+mov bh,47
+mov cx,0500
+mov dx,0b05
+int 10
+
+int 20
+
+n ej2.com
+rcx 14a
+w
+q
