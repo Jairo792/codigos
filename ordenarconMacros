@@ -1,0 +1,54 @@
+; Macro para ordenar 4 números: p1, p2, p3, p4
+prueba MACRO p1,p2,p3,p4
+
+    ; 3 pasadas necesarias para ordenar 4 elementos
+    mov cx, 3     
+
+bucle_externo:
+    
+    ; --- comparar p1 y p2 ---
+    mov ax, p1
+    mov bx, p2
+    cmp ax, bx
+    jle no_swap12
+    ; swap
+    mov p1, bx
+    mov p2, ax
+no_swap12:
+
+    ; --- comparar p2 y p3 ---
+    mov ax, p2
+    mov bx, p3
+    cmp ax, bx
+    jle no_swap23
+    mov p2, bx
+    mov p3, ax
+no_swap23:
+
+    ; --- comparar p3 y p4 ---
+    mov ax, p3
+    mov bx, p4
+    cmp ax, bx
+    jle no_swap34
+    mov p3, bx
+    mov p4, ax
+no_swap34:
+
+    loop bucle_externo
+
+ENDM
+
+
+org 100h
+
+    prueba a,b,c,d
+
+    ; aquí los valores YA ESTÁN ORDENADOS en a,b,c,d
+
+ret
+
+
+a dw 35
+b dw 211
+c dw 22
+d dw 11
