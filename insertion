@@ -1,0 +1,88 @@
+include 'emu8086.inc'
+
+ViewArray Macro
+    local ciclo
+    push cx
+    push si
+    mov cx, n
+    mov si, 0
+ciclo:
+    mov al, v[si]
+    call print_num
+    print ' '
+    inc si
+    loop ciclo
+    pop si
+    pop cx
+endm
+
+
+;inicio de codigo
+org 100h
+
+lea si, msg
+call print_string
+
+mov cx, n
+mov i, 1
+
+ciclo1:
+    mov si, i
+    mov al, v[si]
+    mov j, si
+    dec j
+    mov di, j
+
+mientras:
+    cmp di, 0
+    jnge salir
+
+    mov ah, v[di]
+    cmp ah, al
+    jng salir
+
+    mov v[di+1], ah
+    dec di
+    jmp mientras
+
+salir:
+    mov v[di+1], al
+
+    inc i
+    mov ax, 0
+    call pthis
+    db 13,10, '', 0
+
+    ViewArray
+    loop ciclo1
+
+
+call pthis
+db 13,10, '', 0
+
+lea si, msg1
+call print_string
+call pthis
+db 13,10, '', 0
+
+ViewArray
+
+ret
+
+
+msg db 'Metodo de Ordenamiento de Insercion', 0
+msg1 db 'Vector ordenado:', 0
+
+v db 4,7,2,3,8,1,10,5,9,6
+
+n dw 10
+i dw 0
+j dw 0
+
+;Librerias
+DEFINE_CLEAR_SCREEN
+DEFINE_SCAN_NUM
+DEFINE_PRINT_NUM
+DEFINE_PRINT_STRING
+DEFINE_PTHIS
+DEFINE_PRINT_NUM_UNS
