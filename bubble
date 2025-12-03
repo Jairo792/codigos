@@ -1,0 +1,43 @@
+org 100h
+
+mov cx,n
+dec cx
+
+for:
+ push cx
+ mov cx, n
+ dec cx
+ sub cx, resta  
+ mov si, 0
+ 
+   for2:                 
+   
+     mov ax, lista[si]
+     mov bx, lista[si + 2]  
+     
+     
+     cmp ax, bx
+     jg cambiar
+     jmp continuar
+     cambiar:
+     mov lista[si], bx
+     mov lista[si + 2], ax
+     
+     
+     continuar:
+     add si,2
+   loop for2
+
+ pop cx
+ inc resta
+loop for
+
+
+
+
+ret
+n dw 6
+resta dw 0
+lista dw 123,12,1,23,4,653
+        
+        
