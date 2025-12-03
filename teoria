@@ -1,0 +1,73 @@
+--- 
+
+Edicion
+Los archivos fuente de código ensamblador  deben estar en formato ASCII standard. 
+Cada uno de los archivos que formarán parte del programa ejecutable, deben ser grabados en distintos archivos.
+
+ENSAMBLADO.
+El ensamblado se lleva a cabo invocando al TASM. Este debe ser invocado, para cada uno de los archivos fuente que conforman el programa ejecutable, para nuestro ejemplo deberá ejecutarse de la siguiente manera:
+TASM progA.asm
+TASM progB.asm
+TASM progC.asm
+LINK
+De la misma forma que el ensamblado, la fase de liga se lleva a cabo con el TLINK. Este puede ser invocado de la misma forma que el TASM.  
+Los parámetros que este requiere serán los archivos .obj generados anteriormente por TASM, y los archivos .obj externos además de las librerías externas.:
+      TLINK progA  progB  progC  progX  prog.lib
+EJECUCIÓN.
+Para la ejecución del programa simplemente basta teclear su nombre en el prompt de MS-DOS y teclear ENTER. 
+progA
+
+------TLIB PARA ADMINISTRAR-----
+
+TLIB es una utilidad que administra bibliotecas de archivos .OBJ (módulos de objetos). Una biblioteca es una forma conveniente de manejar una colección de módulos de objetos como una unidad.
+Puede utilizar TLIB para crear sus propias bibliotecas o para modificar sus bibliotecas, bibliotecas proporcionadas por otros programadores o bibliotecas comerciales que haya adquirido. 
+Puede utilizar TLIB para:
+Crear una nueva biblioteca a partir de un grupo de módulos de objetos.
+Agregar módulos de objetos u otras bibliotecas a una biblioteca existente.
+Eliminar módulos de objetos de una biblioteca existente.
+Reemplazar módulos de objetos de una biblioteca existente.
+Extraer módulos de objetos de una biblioteca existente.
+Enumere el contenido de una biblioteca nueva o existente.
+Ejemplos tlib mi_lib.lib +mod1.obj +mod2.obj +mod3.obj
+tlib mi_lib.lib +extra.obj
+tlib mi_lib.lib *util.obj
+
+
+--------MACROS CONCEPTO 
+
+Cuando el compilador procesa su código fuente, busca en el archivo emu8086.inc las declaraciones de las macros y reemplaza los nombres de las macros con código real. 
+En general, las macros son partes relativamente pequeñas del código, el uso frecuente de una macro puede hacer que su ejecutable sea demasiado grande (los procedimientos son mejores para la optimización del tamaño).
+
+--------PROCEDUIMIENTOS
+
+EJEMPLO PROCEDIMIENTO
+
+include 'emu8086.inc'
+ORG    100h
+LEA    SI, msg1       ; ask for the number
+CALL   print_string   ;
+CALL   scan_num       ; get number in CX.
+MOV    AX, CX         ; copy the number to AX.
+; print the following string:
+CALL   pthis
+DB  13, 10, 'You have entered: ', 0
+CALL   print_num      ; print number in AX.
+RET                   ; return to operating system.
+msg1   DB  'Enter the number: ', 0
+DEFINE_SCAN_NUM
+DEFINE_PRINT_STRING
+DEFINE_PRINT_NUM
+DEFINE_PRINT_NUM_UNS  ; required for print_num.
+DEFINE_PTHIS
+END  
+
+
+---Diferencia de Macro/Procedimiento
+Algunos datos importantes sobre macros y procedimientos:
+Cuando desee utilizar un procedimiento, debe utilizar la instrucción CALL:
+Call MyProc
+Cuando desee utilizar una macro, simplemente puede escribir su nombre:
+MyMacro
+En procedimientos se debe usar la pila o cualquier registro de propósito general para pasar parámetros al procedimiento.
+Para pasar parámetros a macro, puede escribirlos después del nombre de la macro. 
+MyMacro 1, 2, 3
