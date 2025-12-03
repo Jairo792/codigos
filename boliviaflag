@@ -1,0 +1,30 @@
+mov ah,06
+mov al,00
+; color rojo
+mov bh,47
+mov cx,0
+mov dx,08ff
+int 10
+
+; color amarillo
+mov ah,06
+mov al,00
+mov bh,e7
+mov cx,0800
+mov dx,10ff
+int 10
+
+; color verde
+mov ah,06
+mov al,00
+mov bh,27
+mov cx,1000
+mov dx,16ff
+int 10
+
+int 20
+
+n ej1.com
+rcx 12c
+w
+q
