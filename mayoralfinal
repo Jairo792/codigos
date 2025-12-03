@@ -1,0 +1,19 @@
+org 100h
+mov cx, 4
+mov bx, 0
+mover:
+  mov ax, lista[bx]
+  cmp ax, lista[bx + 2]
+  jg cambiar
+  je continuar
+  cambiar:
+  mov lista[bx + 2], ax
+  continuar:
+  add bx, 2
+loop mover
+
+
+
+
+ret
+lista dw 212,3,2,1,30
